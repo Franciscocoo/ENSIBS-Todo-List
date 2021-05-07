@@ -17,6 +17,7 @@ var pool = mysql.createPool(
 	throw "Impossible de se connecter à la base de données : "+err;
 });
 
+
 app.post("/taches", (req, res) => {
 	db.then( pool =>
 		pool.query('INSERT INTO ...(...) VALUES(?)', [req.body])
@@ -30,7 +31,7 @@ app.post("/taches", (req, res) => {
 app.get("/taches/:id_tache", (req, res) => {
 	console.log("On demande les détails de la tâche "+req.params.id_tache);
 	db.then( pool =>
-		pool.query('SELECT * (...) WHERE id = :id_tache', [req.body])
+		pool.query('SELECT * (...) WHERE id = ?', [req.body])
 	).then( results => {
 		res.json(ma_tache) ; // Je retourne une réponse au format json
 	});	
