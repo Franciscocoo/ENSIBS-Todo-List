@@ -9,27 +9,68 @@ const db = require("./db.js");
 app.use(bodyParser.json()); // Parse les requêtes avec content-type: application/json
 app.use(bodyParser.urlencoded({ extended: true })); // Parse les requêtes avec content-type: application/x-www-form-urlencoded
 
-// routes
-app.get("/", (req, res) => {
-	res.json({ message: "Bienvenue sur mon 1er service NodeJS !" });
-});
+
+/* routes */
 
 app.post("/taches", (req, res) => {
 	db.then( pool =>
-		pool.query('INSERT INTO ...(...) VALUES(?)', [req.body])
+		pool.query('INSERT INTO taches(libelle, status) VALUES(?,\'A faire\')', [req.body.libelle])
 	).then( results => {
-		res.status(201);
+		res.status(201)
 		res.location("/taches/"+results.insertId)
 		res.send(null); // Il n'y a pas de corps de réponse
 	}) ;
 });
 
-app.get("/taches/:id_tache", (req, res) => {
-	console.log("On demande les détails de la tâche "+req.params.id_tache);
+app.get("/", (req, res) => {
 	db.then( pool =>
-		pool.query('SELECT * (...) WHERE id = :id_tache', [req.body])
+		pool.query('SELECT * from taches')
 	).then( results => {
-		res.json(ma_tache) ; // Je retourne une réponse au format json
+		res.render('index.ejs', {todolist: results});
+	}) ;
+});
+
+app.get("/taches", (req, res) => {
+	db.then( pool =>
+		pool.query('SELECT * from taches')
+	).then( results => {
+		res.json(results);
+	});	
+});
+
+app.get("/taches/:id", (req, res) => {
+	console.log("On demande les détails de la tâche "+ req.params.id);
+	db.then( pool =>
+		pool.query('SELECT * from taches WHERE id = ?', [req.params.id])
+	).then( results => {
+		res.json(resultat);
+	});	
+});
+
+//TODO
+app.put("/taches/:id_tache", (req, res) => {
+	console.log("On souhaite modifier la tâche "+req.params.id_tache);
+	db.then( pool =>
+		pool.query('SELECT * (...) WHERE id = ?', [req.body])
+	).then( results => {
+		res.json(resultat);
+	});	
+});
+
+app.patch("/taches/:id", (req, res) => {
+	db.then( pool =>
+		pool.query('UPDATE taches SET status = \'FAIT\' WHERE id = ?', [req.params.id])
+	).then( results => {
+		res.json(results); 
+	});	
+});
+
+app.delete("/taches", (req, res) => {
+	console.log("On souhaite supprimer la table ");
+	db.then( pool =>
+		pool.query('DELETE FROM taches WHERE id = ?', [req.body.id])
+	).then( results => {
+		console.log("Suppresion effectuée !");
 	});	
 });
 
