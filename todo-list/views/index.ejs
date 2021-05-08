@@ -17,9 +17,8 @@
         <ul>
         <% todolist.forEach(function(tache, index) { %>
             <li data-id='<%= tache.id %>'>
-                <script src="fetch.js"></script>
-                <button onclick=setStatus();> <input type='checkbox' /><%= tache.libelle %> </button>
-				<span class='supprimer' onclick=deleteTache();>✕</span>
+                <button onclick="setStatus()"> <input type='checkbox' /><%= tache.libelle %> </button>
+				<span class='supprimer' onclick="deleteTache()">✕</span>
 			</li>
         <% }); %>
         </ul>
@@ -27,9 +26,11 @@
         <form onsubmit='return false;'>
             <p>
                 <label for="newtodo">Nouvelle tâche : </label>
-                <input type="text" name="libelle" id="newtodo" autofocus />
-                <input type="submit" value="Ajouter" onclick=addTache();/>
+                <input type="text" name="libelle" id="libelle" autofocus />
+                <input type="submit" value="Ajouter" onclick="addTache()"/>
             </p>
         </form>
+        
+        <script src="assets/js/fetch.js"></script>
     </body>
 </html>

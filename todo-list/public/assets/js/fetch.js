@@ -5,8 +5,9 @@ function addTache() {
             'Content-Type': 'application/json'
         },
         method: 'post',
+        body: JSON.stringify( {"libelle": document.getElementById("libelle").value})
      }).then(
-        document.location.reload()
+        //document.location.reload()
     );
 }
 
@@ -18,7 +19,7 @@ function setStatus() {
         },
         method: 'patch',
      }).then(
-            document.location.reload()
+            //document.location.reload()
     );
 }
 

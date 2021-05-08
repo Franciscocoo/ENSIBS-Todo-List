@@ -9,6 +9,7 @@ const db = require("./db.js");
 app.use(bodyParser.json()); // Parse les requêtes avec content-type: application/json
 app.use(bodyParser.urlencoded({ extended: true })); // Parse les requêtes avec content-type: application/x-www-form-urlencoded
 
+app.use(express.static(__dirname + "/public"));
 
 /* routes */
 
