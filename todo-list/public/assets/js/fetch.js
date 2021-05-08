@@ -7,7 +7,7 @@ function addTache() {
         method: 'post',
         body: JSON.stringify( {"libelle": document.getElementById("libelle").value})
      }).then(
-        document.location.reload()
+        window.location.reload()
     );
 }
 
@@ -23,14 +23,15 @@ function setStatus() {
     );
 }
 
-function deleteTache() {
+function deleteTache(element) {
     fetch('/taches', {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         method: 'delete',
+        body: JSON.stringify( {"id": element.parentNode.id})
      }).then(
-            document.location.reload()
+           document.location.reload()
     );
 }

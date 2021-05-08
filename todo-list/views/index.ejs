@@ -16,9 +16,9 @@
         
         <ul>
         <% todolist.forEach(function(tache, index) { %>
-            <li data-id='<%= tache.id %>'>
+            <li id='<%= tache.id %>'>
                 <button onclick="setStatus()"> <input type='checkbox' /><%= tache.libelle %> </button>
-				<span class='supprimer' onclick="deleteTache()">✕</span>
+				<span class='supprimer' onclick="deleteTache(this)">✕</span>
 			</li>
         <% }); %>
         </ul>
