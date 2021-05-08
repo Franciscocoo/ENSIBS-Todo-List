@@ -15,7 +15,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.post("/taches", (req, res) => {
 	db.then( pool =>
-		pool.query('INSERT INTO taches(libelle, status) VALUES(?,\'A faire\')', [req.body.libelle])
+		pool.query('INSERT INTO taches(libelle, status) VALUES(?,\'A_FAIRE\')', [req.body.libelle])
 	).then( results => {
 		res.status(201)
 		res.location("/taches/"+results.insertId)
