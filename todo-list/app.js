@@ -13,7 +13,7 @@ app.use(express.static(__dirname + "/public"));
 
 /* routes */
 
-// Affichage de toutes les tâches lors de la connexion au site.
+// Affiche toutes les tâches lors de la connexion au site depuis un navigateur web ( vers la racine '/' en GET ).
 app.get("/", (req, res) => {
     db.then(pool =>
         pool.query('SELECT * from taches')
@@ -47,7 +47,7 @@ app.post("/taches", (req, res) => {
     });
 });
 
-// Détails d'un tâche.
+// Demande de détails d'un tâche.
 app.get("/taches/:id", (req, res) => {
     db.then(pool =>
         pool.query('SELECT * from taches WHERE id = ?', [req.params.id])
@@ -67,7 +67,7 @@ app.get("/taches/:id", (req, res) => {
 // 	});	
 // });
 
-// Modification du status d'une tâche.
+// Modification du statut d'une tâche.
 app.patch("/taches/:id", (req, res) => {
     db.then(pool =>
         pool.query('UPDATE taches SET status = ? WHERE id = ?', [req.body.statut, req.params.id])
@@ -78,7 +78,7 @@ app.patch("/taches/:id", (req, res) => {
     });
 });
 
-// Suppression d'une tâche après appuis sur la croix.
+// Suppression d'une tâche après appui sur la croix.
 app.delete("/taches/:id", (req, res) => {
     db.then(pool =>
         pool.query('DELETE FROM taches WHERE id = ?', [req.params.id])
