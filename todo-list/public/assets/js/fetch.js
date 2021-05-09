@@ -1,4 +1,4 @@
-// Script en mmode strict. 
+// Script en mode strict. 
 "use strict";
 
 // -- -- -- -- -- -- -- -- -- -- Partie JS basique -- -- -- -- -- -- -- -- -- //
