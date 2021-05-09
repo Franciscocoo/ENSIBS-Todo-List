@@ -1,3 +1,6 @@
+// Script en mmode strict. 
+"use strict";
+
 // -- -- -- -- -- -- -- -- -- -- Partie JS basique -- -- -- -- -- -- -- -- -- //
 
 // Permet d'ajouter une tâche lors de l'appui sur "Entrer".
