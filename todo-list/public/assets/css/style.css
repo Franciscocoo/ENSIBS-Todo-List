@@ -1,0 +1,41 @@
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        li input {
+            margin-right: 10px;
+        }
+
+        li .supprimer {
+            margin-left: 10px;
+            color: red;
+            font-weight: bold;
+            font-size: 60%;
+            cursor: pointer
+        }
+
+        button {
+            border: none;
+            border-radius: 15px;
+            height: 5%;
+            width: 50%;
+            margin-top: 1%;
+
+            overflow:hidden;
+            
+            font-size: 2em;
+        }
+        
+        .A_FAIRE > button {
+            background-color: rgba(255,0,0,0.5);
+        }
+
+        .FAIT > button {
+            background-color: rgba(0,255,0,0.5);
+        }
