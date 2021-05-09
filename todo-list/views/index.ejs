@@ -11,6 +11,7 @@
     <h1 id="header">Ma todolist</h1>
 
     <div id="taches">
+        <!-- Parcours chaque tâche depuis le JSON récupéré "todolist" et les affiche dans une sous division.  -->
         <% todolist.forEach(function(tache, index) { %>
             <div class='<%=tache.status%>' id='<%= tache.id %>'>
                 <button onclick="setStatus(this)"><%= tache.libelle %></button>
@@ -19,8 +20,9 @@
             <% }); %>
     </div>
 
+    <!-- Input et bouton pour ajouter une tâche. -->
     <div id="bottom">
-        <input type="text" id="newtacheInput" placeholder="Nouvelle tâche" />
+        <input type="text" id="newtacheInput" placeholder="Nouvelle tâche" autocomplete="off" />
         <button id="newtacheButton" onclick="addTache()">Ajouter</button>
     </div>
 

@@ -1,17 +1,20 @@
+// -- -- -- -- -- -- -- -- -- -- Partie SETUP -- -- -- -- -- -- -- -- -- -- //
+
+
 const express = require("express");
 const bodyParser = require("body-parser");
+const db = require("./db.js");
 
 const app = express();
-
-const db = require("./db.js");
 
 // use : Utilisation des Middlewares Express
 app.use(bodyParser.json()); // Parse les requêtes avec content-type: application/json
 app.use(bodyParser.urlencoded({ extended: true })); // Parse les requêtes avec content-type: application/x-www-form-urlencoded
+app.use(express.static(__dirname + "/public")); // Permet à la vue d'accéder aux ressources "assets" situées dans le dossier ./public
 
-app.use(express.static(__dirname + "/public"));
 
-/* routes */
+// -- -- -- -- -- -- -- -- -- -- Partie ROUTES -- -- -- -- -- -- -- -- -- -- //
+
 
 // Affiche toutes les tâches lors de la connexion au site depuis un navigateur web ( vers la racine '/' en GET ).
 app.get("/", (req, res) => {
@@ -57,16 +60,6 @@ app.get("/taches/:id", (req, res) => {
     });
 });
 
-// Modification d'une tâche.
-// app.put("/taches/:id", (req, res) => {
-// 	console.log("On souhaite modifier la tâche "+req.params.id);
-// 	db.then( pool =>
-// 		pool.query('SELECT * (...) WHERE id = ?', [req.params.id])
-// 	).then( results => {
-// 		res.json(results);
-// 	});	
-// });
-
 // Modification du statut d'une tâche.
 app.patch("/taches/:id", (req, res) => {
     db.then(pool =>
@@ -88,6 +81,10 @@ app.delete("/taches/:id", (req, res) => {
         res.send(null); // Il n'y a pas de corps de réponse.
     });
 });
+
+
+// -- -- -- -- -- -- -- -- -- -- Partie DEMARRAGE -- -- -- -- -- -- -- -- -- -- //
+
 
 // Démarrage du serveur sur le port spécifié.
 app.listen(3000, () => {
