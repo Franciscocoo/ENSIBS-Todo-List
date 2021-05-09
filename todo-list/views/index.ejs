@@ -8,24 +8,21 @@
 </head>
 
 <body>
-    <h1>Ma todolist</h1>
+    <h1 id="header">Ma todolist</h1>
 
-    <ul id="taches">
+    <div id="taches">
         <% todolist.forEach(function(tache, index) { %>
-            <li class='<%=tache.status%>' id='<%= tache.id %>'>
+            <div class='<%=tache.status%>' id='<%= tache.id %>'>
                 <button onclick="setStatus(this)"><%= tache.libelle %></button>
-                <span class='supprimer' onclick="deleteTache(this)">✕</span>
-            </li>
+                <img src="assets/img/delete.png" onclick="deleteTache(this)">
+            </div>
             <% }); %>
-    </ul>
+    </div>
 
-    <form onsubmit='return false;'>
-        <p>
-            <label for="newtodo">Nouvelle tâche : </label>
-            <input type="text" name="libelle" id="libelle" autofocus />
-            <input type="submit" value="Ajouter" onclick="addTache()" />
-        </p>
-    </form>
+    <div id="bottom">
+        <input type="text" id="newtacheInput" placeholder="Nouvelle tâche" />
+        <button id="newtacheButton" onclick="addTache()">Ajouter</button>
+    </div>
 
     <script src="assets/js/fetch.js"></script>
 </body>

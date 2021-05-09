@@ -1,40 +1,65 @@
+// -- -- -- -- -- -- -- -- -- -- Partie JS basique -- -- -- -- -- -- -- -- --
+
+// Permet d'ajouter une tâche lors de l'appui sur "Entrer".
+document.getElementById("newtacheInput").addEventListener("keyup", ({ key }) => {
+    if (key === "Enter") {
+        addTache();
+    }
+})
+
+// -- -- -- -- -- -- -- -- -- -- Partie  FETCH -- -- -- -- -- -- -- -- -- -- 
+
+// Permet d'ajouter une tâche.
 function addTache() {
-    fetch('/taches', {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ "libelle": document.getElementById("libelle").value })
-    }).then(function (res) {
-        var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function () {
-            if (ajax.readyState == XMLHttpRequest.DONE) {
-                if (ajax.status == 200) {
-                    // Supprime tous les éléments de la liste "taches".
-                    document.getElementById("taches").innerHTML = "";
-                    // Ajoute à la liste "taches" chaque nouveaux éléments.
-                    JSON.parse(ajax.responseText).forEach(function (tache) {
-                        document.getElementById("taches").innerHTML +=
-                            "<li class=" + tache.status + " id=" + tache.id + ">" +
-                            "<button onclick='setStatus(this)'>" + tache.libelle + "</button>" +
-                            "<span class='supprimer' onclick='deleteTache(this)'>✕</span>" +
-                            "</li>"
-                    });
-                } else {
-                    alert('Problème côté serveur.');
+
+    // La fonction est appelé seulement si la tâche n'est pas vide.
+    if (document.getElementById("newtacheInput").value != "") {
+
+        // Utilisation de la requête POST.
+        fetch('/taches', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({ "libelle": document.getElementById("newtacheInput").value })
+        }).then(() => {
+
+            // Appel AJAX après la réponse du serveur, il permet de mettre à jour le contenu de la page sans rafraîchir celle-ci
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function() {
+                if (ajax.readyState == XMLHttpRequest.DONE) {
+                    if (ajax.status == 200) {
+                        // Supprime tous les éléments de la liste "taches".
+                        document.getElementById("taches").innerHTML = "";
+                        // Ajoute à la liste "taches" chaque nouveaux éléments.
+                        JSON.parse(ajax.responseText).forEach(function(tache) {
+                            document.getElementById("taches").innerHTML +=
+                                "<div class=" + tache.status + " id=" + tache.id + ">" +
+                                "<button onclick='setStatus(this)'>" + tache.libelle + "</button>" +
+                                "<img src='assets/img/delete.png' onclick='deleteTache(this)'>" +
+                                "</div>"
+                        });
+                    } else {
+                        alert('Problème côté serveur.');
+                    }
                 }
-            }
-        };
-        ajax.open("GET", "/taches", true);
-        ajax.send();
-    });
+            };
+            ajax.open("GET", "/taches", true);
+            ajax.send();
+
+            document.getElementById("newtacheInput").value = "";
+        });
+    }
 }
 
+// Permet de modifier le statut actuel d'une tâche.
 function setStatus(element) {
 
+    // Le statut est modifié selon le statut précédent.
     let statut = element.parentNode.className == "A_FAIRE" ? "FAIT" : "A_FAIRE";
 
+    // Utilisation de la requête PATCH.
     fetch('/taches/' + element.parentNode.id, {
         headers: {
             'Accept': 'application/json',
@@ -42,20 +67,22 @@ function setStatus(element) {
         },
         method: 'PATCH',
         body: JSON.stringify({ "statut": statut })
-    }).then(function (res) {
+    }).then(() => {
+
+        // Appel AJAX après la réponse du serveur, il permet de mettre à jour le contenu de la page sans rafraîchir celle-ci
         var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function () {
+        ajax.onreadystatechange = function() {
             if (ajax.readyState == XMLHttpRequest.DONE) {
                 if (ajax.status == 200) {
                     // Supprime tous les éléments de la liste "taches".
                     document.getElementById("taches").innerHTML = "";
                     // Ajoute à la liste "taches" chaque nouveaux éléments.
-                    JSON.parse(ajax.responseText).forEach(function (tache) {
+                    JSON.parse(ajax.responseText).forEach(function(tache) {
                         document.getElementById("taches").innerHTML +=
-                            "<li class=" + tache.status + " id=" + tache.id + ">" +
+                            "<div class=" + tache.status + " id=" + tache.id + ">" +
                             "<button onclick='setStatus(this)'>" + tache.libelle + "</button>" +
-                            "<span class='supprimer' onclick='deleteTache(this)'>✕</span>" +
-                            "</li>"
+                            "<img src='assets/img/delete.png' onclick='deleteTache(this)'>" +
+                            "</div>"
                     });
                 } else {
                     alert('Problème côté serveur.');
@@ -67,27 +94,32 @@ function setStatus(element) {
     });
 }
 
+// Permet de supprimer une tâche.
 function deleteTache(element) {
+
+    // Utilisation de la requête DELETE.
     fetch('/taches/' + element.parentNode.id, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         method: 'DELETE'
-    }).then(function (res) {
+    }).then(() => {
+
+        // Appel AJAX après la réponse du serveur, il permet de mettre à jour le contenu de la page sans rafraîchir celle-ci
         var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function () {
+        ajax.onreadystatechange = function() {
             if (ajax.readyState == XMLHttpRequest.DONE) {
                 if (ajax.status == 200) {
                     // Supprime tous les éléments de la liste "taches".
                     document.getElementById("taches").innerHTML = "";
                     // Ajoute à la liste "taches" chaque nouveaux éléments.
-                    JSON.parse(ajax.responseText).forEach(function (tache) {
+                    JSON.parse(ajax.responseText).forEach(function(tache) {
                         document.getElementById("taches").innerHTML +=
-                            "<li class=" + tache.status + " id=" + tache.id + ">" +
+                            "<div class=" + tache.status + " id=" + tache.id + ">" +
                             "<button onclick='setStatus(this)'>" + tache.libelle + "</button>" +
-                            "<span class='supprimer' onclick='deleteTache(this)'>✕</span>" +
-                            "</li>"
+                            "<img src='assets/img/delete.png' onclick='deleteTache(this)'>" +
+                            "</div>"
                     });
                 } else {
                     alert('Problème côté serveur.');
